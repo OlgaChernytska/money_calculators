@@ -212,10 +212,8 @@ def create_capital_lifecycle_table(client: ClientData) -> pd.DataFrame:
         - saved: Amount saved or withdrawn during the year.
         - capital_year_end: Capital at the end of the year.
     """
-    # Create accumulation table before retirement
     acc_table = create_acc_table(client)
-    
-    # Create distribution table after retirement
     dist_table = create_dict_table(client)
-    
-    return pd.concat([acc_table, dist_table])
+    cl_table = pd.concat([acc_table, dist_table]).reset_index(drop=True)
+    cl_table['saved_pp_monthly'] = (cl_table['saved'] / (1+client.i) ** (cl_table['age'] - client.age_now) / 12).astype(int)
+    return cl_table
