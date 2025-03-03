@@ -47,7 +47,7 @@ def calculate_fv(c0: float, r: float, g: float, p: float, N: int) -> float:
         The future value of the investment after N years, considering both the initial capital
         and yearly contributions with compounded interest.
     """
-    return c0 * (1 + r) ** N + p * sum([(1+r) ** (N-j) * (1+g) ** (j-1) for j in range(1, N+1)])
+    return c0 * (1 + r) ** N + p * sum((1+r) ** (N-k) * (1+g) ** (k-1) for k in range(1, N+1))
 
 
 def calculate_w1(c0: float, r: float, i: float, N: int):
@@ -76,7 +76,7 @@ def calculate_w1(c0: float, r: float, i: float, N: int):
 
 def calculate_monthly_passive_income(client: ClientData) -> int:
     """
-    Calculate the estimated monthly passive income after retirement using the provided ClientData.
+    Calculate the estimated monthly passive income during retirement using the provided ClientData.
 
     Parameters
     ----------
@@ -87,13 +87,14 @@ def calculate_monthly_passive_income(client: ClientData) -> int:
         - age_death: Expected age of death.
         - c0: Initial capital.
         - p: Annual contribution to the investment.
-        - r: Annual return rate (default is 0.07).
-        - i: Annual inflation rate (default is 0.02).
+        - r: Annual return rate.
+        - g: Annual growth rate of savings.
+        - i: Annual inflation rate.
 
     Returns
     -------
     int
-        The estimated monthly passive income after retirement.
+        The estimated monthly passive income during retirement in todays prices.
     """
     fv = calculate_fv(c0=client.c0, r=client.r, g=client.g, p=client.p * 12, N=client.age_retirement - client.age_now)
     w1 = calculate_w1(c0=fv, r=client.r, i=client.i, N=client.age_death - client.age_retirement + 1)
