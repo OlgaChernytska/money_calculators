@@ -10,19 +10,21 @@ class ClientData:
     c0: float
     p: float
     r: float
+    g: float
     i: float
     
-    def __init__(self, age_now: int, age_retirement: int, age_death: int, c0: float, p: float, r: float = 0.07, i: float = 0.02):
+    def __init__(self, age_now: int, age_retirement: int, age_death: int, c0: float, p: float, r: float = 0.07, g: float = 0, i: float = 0.02):
         self.age_now = age_now
         self.age_retirement = age_retirement
         self.age_death = age_death
         self.c0 = c0
         self.p = p
         self.r = r
+        self.g = g
         self.i = i
 
 
-def calculate_fv(c0: float, r: float, p: float, N: int) -> float:
+def calculate_fv(c0: float, r: float, g: float, p: float, N: int) -> float:
     """
     Calculate the future value of an investment with an initial capital, annual return, and yearly savings.
 
@@ -32,6 +34,8 @@ def calculate_fv(c0: float, r: float, p: float, N: int) -> float:
         The initial capital (principal) at the start of the investment period.
     r : float
         The annual return rate (as a decimal, e.g., 0.07 for 7%).
+    g : float
+        The annual growth rate of the yearly savings (as a decimal, e.g., 0.02 for 2%).
     p : float
         The yearly payment (savings or contributions) made at the end of each year.
     N : int
@@ -43,7 +47,7 @@ def calculate_fv(c0: float, r: float, p: float, N: int) -> float:
         The future value of the investment after N years, considering both the initial capital
         and yearly contributions with compounded interest.
     """
-    return c0 * (1 + r) ** N + p * (((1 + r) ** N - 1) / r)
+    return c0 * (1 + r) ** N + p * sum((1+r) ** (N-k) * (1+g) ** (k-1) for k in range(1, N+1))
 
 
 def calculate_w1(c0: float, r: float, i: float, N: int):
@@ -67,12 +71,12 @@ def calculate_w1(c0: float, r: float, i: float, N: int):
         The initial annual withdrawal amount, which increases with inflation each year,
         ensuring the capital reaches exactly zero at the end of the period.
     """
-    return (c0 * (1+r) ** N) / sum([(1+i)**j*(1+r)**(N-j) for j in range(N)])
+    return (c0 * (1+r) ** N) / sum((1 + r) ** (N - 1 - k) * (1 + i) ** k for k in range(N))
 
 
 def calculate_monthly_passive_income(client: ClientData) -> int:
     """
-    Calculate the estimated monthly passive income after retirement using the provided ClientData.
+    Calculate the estimated monthly passive income during retirement using the provided ClientData.
 
     Parameters
     ----------
@@ -83,18 +87,19 @@ def calculate_monthly_passive_income(client: ClientData) -> int:
         - age_death: Expected age of death.
         - c0: Initial capital.
         - p: Annual contribution to the investment.
-        - r: Annual return rate (default is 0.07).
-        - i: Annual inflation rate (default is 0.02).
+        - r: Annual return rate.
+        - g: Annual growth rate of savings.
+        - i: Annual inflation rate.
 
     Returns
     -------
     int
-        The estimated monthly passive income after retirement.
+        The estimated monthly passive income during retirement in todays prices.
     """
-    fv = calculate_fv(c0=client.c0, r=client.r, p=client.p * 12, N=client.age_retirement - client.age_now)
-    w1 = calculate_w1(c0=fv, r=client.r, i=client.i, N=client.age_death - client.age_retirement)
+    fv = calculate_fv(c0=client.c0, r=client.r, g=client.g, p=client.p * 12, N=client.age_retirement - client.age_now)
+    w1 = calculate_w1(c0=fv, r=client.r, i=client.i, N=client.age_death - client.age_retirement + 1)
     w_pp = w1 / (1 + client.i) ** (client.age_retirement - client.age_now)
-    return int(w_pp / 12)
+    return w_pp / 12
 
 
 def create_acc_table(client: ClientData) -> pd.DataFrame:
@@ -109,7 +114,8 @@ def create_acc_table(client: ClientData) -> pd.DataFrame:
         - age_retirement: Age at which retirement is planned.
         - c0: Initial capital.
         - p: Monthly savings amount.
-        - r: Annual return rate (default is 0.07).
+        - r: Annual return rate.
+        - g: Annual growth rate of savings.
 
     Returns
     -------
@@ -125,13 +131,13 @@ def create_acc_table(client: ClientData) -> pd.DataFrame:
     capital_prev = client.c0
     
     for age in range(client.age_now, client.age_retirement):
-        capital = calculate_fv(c0=client.c0, r=client.r, p=client.p * 12, N=age - client.age_now + 1)
+        capital = calculate_fv(c0=client.c0, r=client.r, g=client.g, p=client.p * 12, N=age - client.age_now + 1)
         results.append({
             "age": age,
-            "capital_year_start": int(capital_prev),
-            "interest": int(capital_prev * client.r),
-            "saved": int(client.p * 12),
-            "capital_year_end": int(capital)
+            "capital_year_start": capital_prev,
+            "interest": capital_prev * client.r,
+            "saved": client.p * 12 * (1 + client.g) ** (age - client.age_now),
+            "capital_year_end": capital
         })
         capital_prev = capital
     
@@ -151,8 +157,9 @@ def create_dict_table(client: ClientData) -> pd.DataFrame:
         - age_death: Expected age of death.
         - c0: Initial capital at the time of retirement.
         - p: Annual withdrawal amount (as a monthly value, converted to yearly).
-        - r: Annual return rate (default is 0.07).
-        - i: Annual inflation rate (default is 0.02).
+        - r: Annual return rate.
+        - g: Annual growth rate of savings.
+        - i: Annual inflation rate.
 
     Returns
     -------
@@ -164,20 +171,20 @@ def create_dict_table(client: ClientData) -> pd.DataFrame:
         - interest: Interest earned during the year.
         - capital_year_end: Capital at the end of the year.
     """
-    fv = calculate_fv(c0=client.c0, r=client.r, p=client.p * 12, N=client.age_retirement - client.age_now)
-    w1 = calculate_w1(c0=fv, r=client.r, i=client.i, N=client.age_death - client.age_retirement)
+    fv = calculate_fv(c0=client.c0, r=client.r, g=client.g, p=client.p * 12, N=client.age_retirement - client.age_now)
+    w1 = calculate_w1(c0=fv, r=client.r, i=client.i, N=client.age_death - client.age_retirement + 1)
     
     results = []
     capital_prev = fv
     for age in range(client.age_retirement, client.age_death + 1):
-        withdrawal = w1 * (1 + client.i) ** (age - client.age_retirement - 1)
-        capital = (capital_prev - withdrawal) * (1 + client.r)
+        withdrawal = w1 * (1 + client.i) ** (age - client.age_retirement)
+        capital = capital_prev  * (1 + client.r) - withdrawal
         results.append({
             "age": age,
-            "capital_year_start": int(capital_prev),
-            "saved": -int(withdrawal),
-            "interest": int((capital_prev - withdrawal) * client.r),
-            "capital_year_end": int(capital)
+            "capital_year_start": capital_prev,
+            "saved": -withdrawal,
+            "interest": capital_prev * client.r,
+            "capital_year_end": capital
         })
         capital_prev = capital
 
@@ -198,8 +205,9 @@ def create_capital_lifecycle_table(client: ClientData) -> pd.DataFrame:
         - age_death: Expected age of death.
         - c0: Initial capital.
         - p: Monthly savings or withdrawal amount (converted to yearly).
-        - r: Annual return rate (default is 0.07).
-        - i: Annual inflation rate (default is 0.02).
+        - r: Annual return rate.
+        - g: Annual growth rate of savings.
+        - i: Annual inflation rate.
 
     Returns
     -------
@@ -215,5 +223,5 @@ def create_capital_lifecycle_table(client: ClientData) -> pd.DataFrame:
     acc_table = create_acc_table(client)
     dist_table = create_dict_table(client)
     cl_table = pd.concat([acc_table, dist_table]).reset_index(drop=True)
-    cl_table['saved_pp_monthly'] = (cl_table['saved'] / (1+client.i) ** (cl_table['age'] - client.age_now) / 12).astype(int)
-    return cl_table
+    cl_table['saved_pp_monthly'] = (cl_table['saved'] / (1+client.i) ** (cl_table['age'] - client.age_now) / 12)
+    return cl_table.round(0).astype(int)
