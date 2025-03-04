@@ -86,7 +86,7 @@ def calculate_monthly_passive_income(client: ClientData) -> int:
         - age_retirement: Age at which the individual plans to retire.
         - age_death: Expected age of death.
         - c0: Initial capital.
-        - p: Annual contribution to the investment.
+        - p: Monthly contribution to the investment.
         - r: Annual return rate.
         - g: Annual growth rate of savings.
         - i: Annual inflation rate.
@@ -219,6 +219,7 @@ def create_capital_lifecycle_table(client: ClientData) -> pd.DataFrame:
         - interest: Interest earned during the year.
         - saved: Amount saved or withdrawn during the year.
         - capital_year_end: Capital at the end of the year.
+        - saved_pp_monthly: Monthly contribution or withdrawal in today prices.
     """
     acc_table = create_acc_table(client)
     dist_table = create_dict_table(client)
