@@ -2,17 +2,33 @@ from dataclasses import dataclass
 import pandas as pd
 
 
+from dataclasses import dataclass
+
 @dataclass
 class ClientData:
-    age_now: int
-    age_retirement: int
-    age_death: int
-    c0: float
-    p: float
-    r: float
-    g: float
-    i: float
-    
+    """
+    A class to represent client financial data for retirement planning.
+
+    Attributes
+    ----------
+    age_now : int
+        Current age of the client.
+    age_retirement : int
+        Age at which the client plans to retire.
+    age_death : int
+        Expected age of death.
+    c0 : float
+        Initial capital.
+    p : float
+        Monthly savings.
+    r : float, optional
+        Expected annual return on investments (default is 0.07 or 7%).
+    g : float, optional
+        Annual growth rate of savings (default is 0).
+    i : float, optional
+        Annual inflation rate (default is 0.02 or 2%).
+    """
+
     def __init__(self, age_now: int, age_retirement: int, age_death: int, c0: float, p: float, r: float = 0.07, g: float = 0, i: float = 0.02):
         self.age_now = age_now
         self.age_retirement = age_retirement
