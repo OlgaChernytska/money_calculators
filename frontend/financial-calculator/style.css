@@ -1,3 +1,20 @@
 #root {
     display: contents;
 }
+
+#calculator {
+    background: white;
+}
+
+#calculateButton {
+    background: #008f89;
+    color: white;
+}
+
+#spoiler {
+    margin-bottom: 124px;
+}
+
+canvas {
+    background: white;
+}

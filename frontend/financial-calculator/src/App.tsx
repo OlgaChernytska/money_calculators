@@ -37,7 +37,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 // Define the ClientData interface
-interface ClientData {
+export interface ClientData {
   ageNow: number;
   ageRetirement: number;
   ageDeath: number;
@@ -60,7 +60,7 @@ interface TableRowData {
 
 // Calculate future value (FV)
 const calculateFV = (c0: number, r: number, g: number, p: number, N: number): number => {
-  return c0 * Math.pow(1 + r, N) + p * Array.from({ length: N }, (_, k) => Math.pow(1 + r, N - k) * Math.pow(1 + g, k)).reduce((a, b) => a + b, 0);
+  return c0 * Math.pow(1 + r, N) + p * Array.from({ length: N }, (_, k) => Math.pow(1 + r, N - (k + 1)) * Math.pow(1 + g, k)).reduce((a, b) => a + b, 0);
 };
 
 // Calculate initial withdrawal amount (W1)
@@ -69,7 +69,7 @@ const calculateW1 = (c0: number, r: number, i: number, N: number): number => {
 };
 
 // Calculate monthly passive income
-const calculateMonthlyPassiveIncome = (client: ClientData): number => {
+export const calculateMonthlyPassiveIncome = (client: ClientData): number => {
   const fv = calculateFV(client.c0, client.r, client.g, client.p * 12, client.ageRetirement - client.ageNow);
   const w1 = calculateW1(fv, client.r, client.i, client.ageDeath - client.ageRetirement + 1);
   const wPP = w1 / Math.pow(1 + client.i, client.ageRetirement - client.ageNow);
@@ -124,7 +124,7 @@ const theme = createTheme({
       main: '#ffffff',
     },
     background: {
-      default: '#2c5969', // Set the default background color
+      default: '#035d59', 
     },
   },
 });
@@ -132,13 +132,13 @@ const theme = createTheme({
 const App: React.FC = () => {
   // State for form inputs
   const [clientData, setClientData] = useState<ClientData>({
-    ageNow: 30,
-    ageRetirement: 65,
-    ageDeath: 90,
-    c0: 10000,
-    p: 500,
+    ageNow: 32,
+    ageRetirement: 40,
+    ageDeath: 80,
+    c0: 5000,
+    p: 2000,
     r: 0.07,
-    g: 0,
+    g: 0.02,
     i: 0.02,
   });
 
@@ -212,12 +212,12 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <Box mt={4} mb={4}>
+        <Box mt={4} mb={4} >
           <Typography variant="h4" gutterBottom align="center" color="primary">
             Financial Calculator
           </Typography>
         </Box>
-        <Card>
+        <Card id="calculator">
           <CardContent>
             <Box component="form" noValidate autoComplete="off">
               <Grid container spacing={3}>
@@ -318,7 +318,7 @@ const App: React.FC = () => {
                 </Grid>
               </Grid>
               <Box mt={3} display="flex" justifyContent="center">
-                <Button variant="contained" color="primary" onClick={handleCalculate}>
+                <Button variant="contained" color="primary" onClick={handleCalculate} id="calculateButton">
                   Calculate
                 </Button>
               </Box>
@@ -340,8 +340,8 @@ const App: React.FC = () => {
               </Typography>
               <Bar data={chartData} options={chartOptions} />
             </Box>
-            <Box mt={3}>
-              <Accordion>
+            <Box mt={3} id="spoiler">
+              <Accordion >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>Detailed Info</Typography>
                 </AccordionSummary>
