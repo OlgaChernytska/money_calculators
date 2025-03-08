@@ -1,0 +1,17 @@
+#calculator {
+    background: white;
+    padding-top: 20px;
+}
+
+#calculatorButton {
+    background: #008f89;
+    color: white;
+}
+
+#income {
+    color: #5d5d5d;
+}
+
+#income strong {
+    color: #01beb5;
+}
