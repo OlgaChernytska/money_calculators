@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Button,
   Container,
-  TextField,
   Typography,
   Box,
   Grid,
@@ -32,6 +31,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import CustomTextField from "./CustomTextField"
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -148,14 +148,14 @@ const App: React.FC = () => {
   // State for the table data
   const [tableData, setTableData] = useState<TableRowData[]>([]);
 
-  // Handle input changes
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setClientData({
-      ...clientData,
-      [name]: parseFloat(value),
-    });
-  };
+  // // Handle input changes
+  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   setClientData({
+  //     ...clientData,
+  //     [name]: parseFloat(value),
+  //   });
+  // };
 
   // Handle calculation
   const handleCalculate = () => {
@@ -208,6 +208,81 @@ const App: React.FC = () => {
     },
   };
 
+    // State to track validation errors and reasons
+    const [validationErrors, setValidationErrors] = useState({
+      ageNow: { isValid: true, reason: "" },
+      ageRetirement: { isValid: true, reason: "" },
+      ageDeath: { isValid: true, reason: "" },
+    });
+  
+    // Function to check interlinked validation rules and return a reason
+    const checkValidationRules = (field, value) => {
+      const { ageNow, ageRetirement, ageDeath } = clientData;
+  
+      switch (field) {
+        case "ageNow":
+          if (ageRetirement !== null && value >= ageRetirement) {
+            return { isValid: false, reason: "Current Age must be less than Retirement Age" };
+          }
+          if (ageDeath !== null && value >= ageDeath) {
+            return { isValid: false, reason: "Current Age must be less than Expected Age of Death" };
+          }
+          return { isValid: true, reason: "" };
+        case "ageRetirement":
+          if (ageNow !== null && value <= ageNow) {
+            return { isValid: false, reason: "Retirement Age must be greater than Current Age" };
+          }
+          if (ageDeath !== null && value >= ageDeath) {
+            return { isValid: false, reason: "Retirement Age must be less than Expected Age of Death" };
+          }
+          return { isValid: true, reason: "" };
+        case "ageDeath":
+          if (ageNow !== null && value <= ageNow) {
+            return { isValid: false, reason: "Expected Age of Death must be greater than Current Age" };
+          }
+          if (ageRetirement !== null && value <= ageRetirement) {
+            return { isValid: false, reason: "Expected Age of Death must be greater than Retirement Age" };
+          }
+          return { isValid: true, reason: "" };
+        default:
+          return { isValid: true, reason: "" };
+      }
+    };
+  
+    // Handle input change
+    const handleInputChange = (field) => (e) => {
+      const inputValue = e.target.value;
+  
+      // If the input is empty, set the value to null or 0
+      if (inputValue === "") {
+        setClientData({
+          ...clientData,
+          [field]: null, // or 0, depending on your use case
+        });
+        setValidationErrors((prev) => ({ ...prev, [field]: { isValid: true, reason: "" } })); // Clear validation error
+      } else {
+        const numericValue = parseFloat(inputValue);
+  
+        // Validate input: must be a whole number between 0 and 200
+        if (
+          !isNaN(numericValue) &&
+          numericValue >= 0 &&
+          numericValue <= 200 &&
+          Number.isInteger(numericValue) // Ensure no decimals
+        ) {
+          // Check interlinked validation rules
+          const validationResult = checkValidationRules(field, numericValue);
+  
+          setValidationErrors((prev) => ({ ...prev, [field]: validationResult })); // Set validation error and reason
+          setClientData({
+            ...clientData,
+            [field]: numericValue, // Store as a number
+          });
+        }
+      }
+    };
+
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -220,122 +295,293 @@ const App: React.FC = () => {
         <Card id="calculator">
           <CardContent>
             <Box component="form" noValidate autoComplete="off">
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Current Age"
-                    type="number"
-                    name="ageNow"
-                    value={clientData.ageNow}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Retirement Age"
-                    type="number"
-                    name="ageRetirement"
-                    value={clientData.ageRetirement}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Expected Age of Death"
-                    type="number"
-                    name="ageDeath"
-                    value={clientData.ageDeath}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Initial Capital ($)"
-                    type="number"
-                    name="c0"
-                    value={clientData.c0}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Monthly Savings ($)"
-                    type="number"
-                    name="p"
-                    value={clientData.p}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Annual Return Rate (%)"
-                    type="number"
-                    name="r"
-                    value={clientData.r * 100}
-                    onChange={(e) =>
-                      setClientData({
-                        ...clientData,
-                        r: parseFloat(e.target.value) / 100,
-                      })
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Annual Growth Rate of Savings (%)"
-                    type="number"
-                    name="g"
-                    value={clientData.g * 100}
-                    onChange={(e) =>
-                      setClientData({
-                        ...clientData,
-                        g: parseFloat(e.target.value) / 100,
-                      })
-                    }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Annual Inflation Rate (%)"
-                    type="number"
-                    name="i"
-                    value={clientData.i * 100}
-                    onChange={(e) =>
-                      setClientData({
-                        ...clientData,
-                        i: parseFloat(e.target.value) / 100,
-                      })
-                    }
-                  />
-                </Grid>
-              </Grid>
+            <Grid container spacing={3}>
+  <Grid item xs={12} sm={6}>
+    <CustomTextField
+      fullWidth
+      label="Current Age"
+      type="number"
+      name="ageNow"
+      value={clientData.ageNow === null ? "" : clientData.ageNow} // Handle empty input
+      onChange={(e) => {
+        const inputValue = e.target.value;
+
+        // If the input is empty, set the value to null or 0
+        if (inputValue === "") {
+          setClientData({
+            ...clientData,
+            ageNow: null, // or 0, depending on your use case
+          });
+        } else {
+          const numericValue = parseFloat(inputValue);
+
+          // Validate input: must be a whole number between 0 and 200
+          if (
+            !isNaN(numericValue) &&
+            numericValue >= 0 &&
+            numericValue <= 200 &&
+            Number.isInteger(numericValue) // Ensure no decimals
+          ) {
+            // Check interlinked validation rules
+            if (
+              (clientData.ageRetirement === null || numericValue < clientData.ageRetirement) &&
+              (clientData.ageDeath === null || numericValue < clientData.ageDeath)
+            ) {
+              setClientData({
+                ...clientData,
+                ageNow: numericValue, // Store as a number
+              });
+            }
+          }
+        }
+      }}
+      inputProps={{
+        min: 0, // Minimum value
+        max: 200, // Maximum value
+        step: 1, // Allow only whole numbers
+      }}
+    />
+  </Grid>
+
+  <Grid item xs={12} sm={6}>
+    <CustomTextField
+      fullWidth
+      label="Retirement Age"
+      type="number"
+      name="ageRetirement"
+      value={clientData.ageRetirement === null ? "" : clientData.ageRetirement} // Handle empty input
+      onChange={(e) => {
+        const inputValue = e.target.value;
+
+        // If the input is empty, set the value to null or 0
+        if (inputValue === "") {
+          setClientData({
+            ...clientData,
+            ageRetirement: null, // or 0, depending on your use case
+          });
+        } else {
+          const numericValue = parseFloat(inputValue);
+
+          // Validate input: must be a whole number between 0 and 200
+          if (
+            !isNaN(numericValue) &&
+            numericValue >= 0 &&
+            numericValue <= 200 &&
+            Number.isInteger(numericValue) // Ensure no decimals
+          ) {
+            // Check interlinked validation rules
+            if (
+              (clientData.ageNow === null || numericValue > clientData.ageNow) &&
+              (clientData.ageDeath === null || numericValue < clientData.ageDeath)
+            ) {
+              setClientData({
+                ...clientData,
+                ageRetirement: numericValue, // Store as a number
+              });
+            }
+          }
+        }
+      }}
+      inputProps={{
+        min: 0, // Minimum value
+        max: 200, // Maximum value
+        step: 1, // Allow only whole numbers
+      }}
+    />
+  </Grid>
+
+  {/* Expected Age of Death */}
+  <Grid item xs={12} sm={6}>
+    <CustomTextField
+      fullWidth
+      label="Expected Age of Death"
+      type="number"
+      name="ageDeath"
+      value={clientData.ageDeath === null ? "" : clientData.ageDeath} // Handle empty input
+      onChange={(e) => {
+        const inputValue = e.target.value;
+
+        // If the input is empty, set the value to null or 0
+        if (inputValue === "") {
+          setClientData({
+            ...clientData,
+            ageDeath: null, // or 0, depending on your use case
+          });
+        } else {
+          const numericValue = parseFloat(inputValue);
+
+          // Validate input: must be a whole number between 0 and 200
+          if (
+            !isNaN(numericValue) &&
+            numericValue >= 0 &&
+            numericValue <= 200 &&
+            Number.isInteger(numericValue) // Ensure no decimals
+          ) {
+            // Check interlinked validation rules
+            if (
+              (clientData.ageNow === null || numericValue > clientData.ageNow) &&
+              (clientData.ageRetirement === null || numericValue > clientData.ageRetirement)
+            ) {
+              setClientData({
+                ...clientData,
+                ageDeath: numericValue, // Store as a number
+              });
+            }
+          }
+        }
+      }}
+      inputProps={{
+        min: 0, // Minimum value
+        max: 200, // Maximum value
+        step: 1, // Allow only whole numbers
+      }}
+    />
+  </Grid>
+      <Grid item xs={12} sm={6}>
+        <CustomTextField
+          fullWidth
+          label="Initial Capital ($)"
+          type="number"
+          name="c0"
+          value={clientData.c0}
+          onChange={handleInputChange}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <CustomTextField
+          fullWidth
+          label="Monthly Savings ($)"
+          type="number"
+          name="p"
+          value={clientData.p}
+          onChange={handleInputChange}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+      <CustomTextField
+  fullWidth
+  label="Annual Return Rate (%)"
+  type="number"
+  name="r"
+  value={clientData.r === null ? "" : Math.round(clientData.r * 100)} // Handle empty input
+  onChange={(e) => {
+    const inputValue = e.target.value;
+
+    // If the input is empty, set the value to null or 0
+    if (inputValue === "") {
+      setClientData({
+        ...clientData,
+        r: null, // or 0, depending on your use case
+      });
+    } else {
+      const numericValue = parseFloat(inputValue);
+
+      // Validate input: must be a number between 0 and 100
+      if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 200) {
+        setClientData({
+          ...clientData,
+          r: numericValue / 100, // Convert back to decimal
+        });
+      }
+    }
+  }}
+  inputProps={{
+    min: 0, // Minimum value
+    max: 200, // Maximum value
+    step: 1, // Allow only whole numbers
+  }}
+/>
+</Grid> 
+<Grid item xs={12} sm={6}>
+  <CustomTextField
+    fullWidth
+    label="Annual Growth Rate of Savings (%)"
+    type="number"
+    name="g"
+    value={clientData.g === null ? "" : Math.round(clientData.g * 100)} // Handle empty input
+    onChange={(e) => {
+      const inputValue = e.target.value;
+
+      // If the input is empty, set the value to null or 0
+      if (inputValue === "") {
+        setClientData({
+          ...clientData,
+          g: null, // or 0, depending on your use case
+        });
+      } else {
+        const numericValue = parseFloat(inputValue);
+
+        // Validate input: must be a number between 0 and 100
+        if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 200) {
+          setClientData({
+            ...clientData,
+            g: numericValue / 100, // Convert back to decimal
+          });
+        }
+      }
+    }}
+    inputProps={{
+      min: 0, // Minimum value
+      max: 200, // Maximum value
+      step: 1, // Allow only whole numbers
+    }}
+  />
+</Grid>
+<Grid item xs={12} sm={6}>
+  <CustomTextField
+    fullWidth
+    label="Annual Inflation Rate (%)"
+    type="number"
+    name="i"
+    value={clientData.i === null ? "" : Math.round(clientData.i * 100)} // Handle empty input
+    onChange={(e) => {
+      const inputValue = e.target.value;
+
+      // If the input is empty, set the value to null or 0
+      if (inputValue === "") {
+        setClientData({
+          ...clientData,
+          i: null, // or 0, depending on your use case
+        });
+      } else {
+        const numericValue = parseFloat(inputValue);
+
+        // Validate input: must be a number between 0 and 100
+        if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 200) {
+          setClientData({
+            ...clientData,
+            i: numericValue / 100, // Convert back to decimal
+          });
+        }
+      }
+    }}
+    inputProps={{
+      min: 0, // Minimum value
+      max: 200, // Maximum value
+      step: 1, // Allow only whole numbers
+    }}
+  />
+</Grid>
+    </Grid>
               <Box mt={3} display="flex" justifyContent="center">
                 <Button variant="contained" color="primary" onClick={handleCalculate} id="calculateButton">
                   Calculate
                 </Button>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-        {monthlyPassiveIncome !== null && (
-          <Box mt={3} textAlign="center">
-            <Typography variant="h6">
+              {monthlyPassiveIncome !== null && (
+          <Box mt={3} textAlign="center" >
+            <Typography variant="h6" id="income">
               Estimated Monthly Passive Income: <strong>${monthlyPassiveIncome.toFixed(2)}</strong>
             </Typography>
           </Box>
         )}
+            </Box>
+          </CardContent>
+        </Card>
         {tableData.length > 0 && (
           <>
             <Box mt={3}>
-              <Typography variant="h6" gutterBottom align="center">
+              <Typography variant="h4" gutterBottom align="center">
                 Capital Growth Over Time
               </Typography>
               <Bar data={chartData} options={chartOptions} />

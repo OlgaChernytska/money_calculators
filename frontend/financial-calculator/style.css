@@ -1,9 +1,22 @@
+/* tags */
+
+canvas {
+    background: white;
+}
+
+.css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input {
+    outline:red !important;
+    border-color: red;
+}
+
+/* id */
 #root {
     display: contents;
 }
 
 #calculator {
     background: white;
+    padding-top: 20px;
 }
 
 #calculateButton {
@@ -11,10 +24,23 @@
     color: white;
 }
 
+#income {
+    color: #5d5d5d;
+}
+
+#income strong {
+    color: #01beb5;
+}
+
 #spoiler {
     margin-bottom: 124px;
 }
 
-canvas {
-    background: white;
+
+
+/* classes */
+
+.MuiTypography-h4{
+    color: white;
+    padding: 40px 0 40px 0;
 }
