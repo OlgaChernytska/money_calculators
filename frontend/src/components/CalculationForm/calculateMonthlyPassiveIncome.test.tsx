@@ -1,4 +1,5 @@
-import { ClientData, calculateMonthlyPassiveIncome } from '../../App'; // Adjust the import path as needed
+import { calculateMonthlyPassiveIncome } from './utils/calculation';
+import { ClientData } from '../../types';
 
 describe('calculateMonthlyPassiveIncome', () => {
   it('should calculate the monthly passive income correctly', () => {

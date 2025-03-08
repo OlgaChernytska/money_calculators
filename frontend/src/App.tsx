@@ -5,8 +5,7 @@ import CalculationForm from './components/CalculationForm/index';
 import Chart from './components/Chart/index';
 import CapitalLifecycleTable from './components/CapitalLifecycleTable/index';
 import { ClientData, TableRowData } from './types';
-import { calculateMonthlyPassiveIncome, createCapitalLifecycleTable } from './utils/calculation';
-import { checkValidationRules } from './utils/validation';
+import { calculateMonthlyPassiveIncome, createCapitalLifecycleTable } from './components/CalculationForm/utils/calculation';
 
 const theme = createTheme({
   palette: {
@@ -44,11 +43,6 @@ const App: React.FC = () => {
     const inputValue = e.target.value;
     const numericValue = inputValue === '' ? null : parseFloat(inputValue);
   
-    // Check validation rules only if numericValue is not null
-    if (numericValue !== null) {
-      const validationResult = checkValidationRules(field, numericValue, clientData);
-      setValidationErrors((prev) => ({ ...prev, [field]: validationResult }));
-    }
   
     // Update client data
     setClientData((prev) => ({ ...prev, [field]: numericValue }));

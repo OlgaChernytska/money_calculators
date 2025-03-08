@@ -1,18 +1,24 @@
-import { TextField, styled } from '@mui/material';
 import React from 'react';
+import { TextField, styled } from '@mui/material';
 
-// Define the type for props (if needed)
-interface CustomTextFieldProps {
+interface TextFieldBaseProps {
   label: string;
   type?: string;
   name: string;
   value: string | number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   fullWidth?: boolean;
+  error?: boolean;
+  helperText?: string;
+  inputProps?: {
+    min?: number;
+    max?: number;
+    step?: number;
+  };
 }
 
 // Create the styled component
-const CustomTextField = styled(TextField)<CustomTextFieldProps>({
+const TextFieldBase = styled(TextField)<TextFieldBaseProps>({
   backgroundColor: 'white', // Set background color
   '& .MuiOutlinedInput-root': {
     '&.Mui-focused fieldset': {
@@ -26,4 +32,4 @@ const CustomTextField = styled(TextField)<CustomTextFieldProps>({
   },
 });
 
-export default CustomTextField;
+export default TextFieldBase;
