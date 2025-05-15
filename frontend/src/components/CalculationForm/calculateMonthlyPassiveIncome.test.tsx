@@ -1,4 +1,4 @@
-import { calculateMonthlyPassiveIncome } from './utils/calculation';
+import { calculateMonthlyPassiveIncome } from './calculateMonthlyPassiveIncome';
 import { ClientData } from '../../types';
 
 describe('calculateMonthlyPassiveIncome', () => {

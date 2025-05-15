@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import './style.css';
 
@@ -8,11 +8,10 @@ import CurrentAgeField from './fields/CurrentAgeField';
 import RetirementAgeField from './fields/RetirementAgeField';
 import ExpectedAgeOfDeathField from './fields/ExpectedAgeOfDeathField';
 import InitialCapitalField from './fields/InitialCapitalField';
-import MonthlySavingsField from './fields/MonthlySavingsField'; 
-import AnnualReturnRateField from './fields/AnnualReturnRateField'; 
-import AnnualGrowthRateOfSavingsField from './fields/AnnualGrowthRateOfSavingsField'; 
+import MonthlySavingsField from './fields/MonthlySavingsField';
+import AnnualReturnRateField from './fields/AnnualReturnRateField';
+import AnnualGrowthRateOfSavingsField from './fields/AnnualGrowthRateOfSavingsField';
 import AnnualInflationRateField from './fields/AnnualInflationRateField';
-
 
 interface CalculationFormProps {
   clientData: ClientData;
@@ -21,54 +20,103 @@ interface CalculationFormProps {
   validationErrors: Record<string, { isValid: boolean; reason: string }>;
 }
 
+const validateAges = (clientData: ClientData) => {
+  const errors: Record<string, { isValid: boolean; reason: string }> = {
+    ageNow: { isValid: true, reason: '' },
+    ageRetirement: { isValid: true, reason: '' },
+    ageDeath: { isValid: true, reason: '' },
+  };
+
+  if (clientData.ageNow >= clientData.ageRetirement) {
+    errors.ageNow = { isValid: false, reason: 'Current age must be less than retirement age' };
+    errors.ageRetirement = { isValid: false, reason: 'Retirement age must be greater than current age' };
+  }
+
+  if (clientData.ageRetirement >= clientData.ageDeath) {
+    errors.ageRetirement = { isValid: false, reason: 'Retirement age must be less than expected age of death' };
+    errors.ageDeath = { isValid: false, reason: 'Expected age of death must be greater than retirement age' };
+  }
+
+  return errors;
+};
+
 const CalculationForm: React.FC<CalculationFormProps> = ({
   clientData,
   onInputChange,
   onCalculate,
-  validationErrors,
+  validationErrors: initialValidationErrors,
 }) => {
+  const [validationErrors, setValidationErrors] = useState(initialValidationErrors);
+
+  useEffect(() => {
+    // Validate ages whenever clientData changes
+    const ageErrors = validateAges(clientData);
+    setValidationErrors((prev) => ({
+      ...prev,
+      ageNow: ageErrors.ageNow,
+      ageRetirement: ageErrors.ageRetirement,
+      ageDeath: ageErrors.ageDeath,
+    }));
+  }, [clientData]);
+
+  const handleCalculate = () => {
+    const ageErrors = validateAges(clientData);
+    setValidationErrors((prev) => ({
+      ...prev,
+      ageNow: ageErrors.ageNow,
+      ageRetirement: ageErrors.ageRetirement,
+      ageDeath: ageErrors.ageDeath,
+    }));
+
+    const hasErrors = Object.values(ageErrors).some((error) => !error.isValid);
+    if (!hasErrors) {
+      onCalculate();
+    }
+  };
+
+  const hasValidationErrors = Object.values(validationErrors).some((error) => !error.isValid);
+
   return (
     <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={3}>
         <CurrentAgeField
-            clientData={clientData}
-            onInputChange={onInputChange}
-            validationErrors={validationErrors}
-          />
+          clientData={clientData}
+          onInputChange={onInputChange}
+          validationErrors={validationErrors}
+        />
 
-          <RetirementAgeField
-            clientData={clientData}
-            onInputChange={onInputChange}
-            validationErrors={validationErrors}
-          />
+        <RetirementAgeField
+          clientData={clientData}
+          onInputChange={onInputChange}
+          validationErrors={validationErrors}
+        />
 
-          <ExpectedAgeOfDeathField
-            clientData={clientData}
-            onInputChange={onInputChange}
-            validationErrors={validationErrors}
-          />
+        <ExpectedAgeOfDeathField
+          clientData={clientData}
+          onInputChange={onInputChange}
+          validationErrors={validationErrors}
+        />
 
+        <InitialCapitalField clientData={clientData} onInputChange={onInputChange} />
 
+        <MonthlySavingsField clientData={clientData} onInputChange={onInputChange} />
 
-          <InitialCapitalField
-            clientData={clientData}
-            onInputChange={onInputChange}
-          />
+        <AnnualReturnRateField clientData={clientData} onInputChange={onInputChange} />
 
+        <AnnualGrowthRateOfSavingsField clientData={clientData} onInputChange={onInputChange} />
 
-          <MonthlySavingsField clientData={clientData} onInputChange={onInputChange} />
-
-          <AnnualReturnRateField clientData={clientData} onInputChange={onInputChange} />
-
-          <AnnualGrowthRateOfSavingsField clientData={clientData} onInputChange={onInputChange} />
-
-          <AnnualInflationRateField clientData={clientData} onInputChange={onInputChange} />
-
+        <AnnualInflationRateField clientData={clientData} onInputChange={onInputChange} />
       </Grid>
 
       {/* Calculate Button */}
       <Box mt={3} display="flex" justifyContent="center">
-        <Button id="calculatorButton" variant="contained" color="primary" onClick={onCalculate} >
+        <Button
+          id="calculatorButton"
+          variant="contained"
+          color="primary"
+          onClick={handleCalculate}
+          disabled={hasValidationErrors}
+        >
           Calculate
         </Button>
       </Box>

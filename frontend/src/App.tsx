@@ -5,7 +5,7 @@ import CalculationForm from './components/CalculationForm/index';
 import Chart from './components/Chart/index';
 import CapitalLifecycleTable from './components/CapitalLifecycleTable/index';
 import { ClientData, TableRowData } from './types';
-import { calculateMonthlyPassiveIncome, createCapitalLifecycleTable } from './components/CalculationForm/utils/calculation';
+import { calculateMonthlyPassiveIncome, createCapitalLifecycleTable } from './components/CalculationForm/calculateMonthlyPassiveIncome';
 
 const theme = createTheme({
   palette: {
