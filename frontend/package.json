@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "github.com/OlgaChernytska/money_calculators",
+  "homepage": "https://OlgaChernytska.github.io/money_calculators",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build && cp dist/index.html dist/404.html",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
