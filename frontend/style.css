@@ -1,0 +1,22 @@
+/* tags */
+canvas {
+    background: white;
+}
+
+
+/* id */
+#root {
+    display: contents;
+}
+
+
+/* classes */
+.MuiTypography-h4{
+    color: white;
+    padding: 40px 0 40px 0;
+}
+
+.css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input {
+    outline:red !important;
+    border-color: red;
+}
