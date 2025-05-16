@@ -17,10 +17,8 @@ const AnnualInflationRateField: React.FC<AnnualInflationRateFieldProps> = ({ cli
         type="number"
         name="i"
         value={clientData.i === null ? '' : Math.round(clientData.i * 100)}
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          const numericValue = inputValue === '' ? null : parseFloat(inputValue) / 100;
-          onInputChange('i')({ ...e, target: { ...e.target, value: numericValue } });
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onInputChange('i')(e);
         }}
       />
     </Grid>

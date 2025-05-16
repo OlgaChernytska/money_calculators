@@ -33,7 +33,7 @@ const App: React.FC = () => {
   });
   const [monthlyPassiveIncome, setMonthlyPassiveIncome] = useState<number | null>(null);
   const [tableData, setTableData] = useState<TableRowData[]>([]);
-  const [validationErrors, setValidationErrors] = useState({
+  const [validationErrors] = useState({
     ageNow: { isValid: true, reason: '' },
     ageRetirement: { isValid: true, reason: '' },
     ageDeath: { isValid: true, reason: '' },
