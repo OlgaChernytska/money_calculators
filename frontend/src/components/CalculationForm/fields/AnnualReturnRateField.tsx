@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import TextFieldBase from './TextFieldBase/TextFieldBase';
 import { ClientData } from '../../../types';
+import TextFieldBase from './TextFieldBase/TextFieldBase';
 
 interface AnnualReturnRateFieldProps {
   clientData: ClientData;
@@ -17,10 +17,8 @@ const AnnualReturnRateField: React.FC<AnnualReturnRateFieldProps> = ({ clientDat
         type="number"
         name="r"
         value={clientData.r === null ? '' : Math.round(clientData.r * 100)}
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          const numericValue = inputValue === '' ? null : parseFloat(inputValue) / 100;
-          onInputChange('r')({ ...e, target: { ...e.target, value: numericValue } });
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onInputChange('r')(e); 
         }}
       />
     </Grid>
