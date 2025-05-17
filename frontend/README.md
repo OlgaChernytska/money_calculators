@@ -1,54 +1,87 @@
-# React + TypeScript + Vite
+# Money Calculators - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a financial calculator application built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Development
+```bash
+npm run dev
 ```
+Starts the development server with hot reloading at http://localhost:5173
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Linting
+```bash
+npm run lint
 ```
+Runs ESLint to check for code quality issues and style consistency.
+
+```bash
+npm run lint:fix
+```
+Attempts to automatically fix linting issues where possible.
+
+## Checking for Unused Files
+```bash
+npx unimported
+```
+Scans your project for unused files and dependencies (requires installation first).
+
+## Building
+```bash
+npm run build
+```
+Builds the app for production to the dist folder, optimized for best performance.
+
+## Preview Production Build
+```bash
+npm run preview
+```
+Locally previews the production build (must run build first).
+
+## Deployment
+```bash
+npm run predeploy
+```
+Prepares the build for deployment (runs build and any pre-deployment checks).
+
+```bash
+npm run deploy
+```
+Deploys the application to GitHub Pages (or your configured hosting).
+
+## Additional Useful Commands
+Type Checking
+```bash
+npm run type-check
+```
+Runs TypeScript compiler to check for type errors.
+
+## Testing
+```bash
+npm run test
+```
+Runs unit tests with Vitest.
+
+
+## Checking Dependency Health
+```bash
+npm outdated
+```
+Checks for outdated dependencies.
+
+```bash
+npm audit
+```
+Checks for vulnerable dependencies.
+
+
+```bash
+npx depcheck
+```
+Alternative to unimported for finding unused dependencies.
+
+```bash
+npx ts-prune
+```
+Finds unused TypeScript exports (install with npm install ts-prune --save-dev).
