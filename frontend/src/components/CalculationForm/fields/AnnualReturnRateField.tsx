@@ -17,10 +17,17 @@ const AnnualReturnRateField: React.FC<AnnualReturnRateFieldProps> = ({ clientDat
         type="number"
         name="r"
         value={clientData.r === null ? '' : Math.round(clientData.r * 100)}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const inputValue = e.target.value;
           const numericValue = inputValue === '' ? null : parseFloat(inputValue) / 100;
-          onInputChange('r')({ ...e, target: { ...e.target, value: numericValue } });
+          const newEvent = {
+            ...e,
+            target: {
+              ...e.target,
+              value: numericValue === null ? '' : numericValue.toString(),
+            } as HTMLInputElement,
+          };
+          onInputChange('r')(newEvent);
         }}
       />
     </Grid>

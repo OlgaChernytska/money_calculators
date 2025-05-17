@@ -43,9 +43,6 @@ const App: React.FC = () => {
   const handleInputChange = (field: keyof ClientData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const numericValue = inputValue === '' ? null : parseFloat(inputValue);
-  
-  
-    // Update client data
     setClientData((prev) => ({ ...prev, [field]: numericValue }));
   };
 
@@ -65,17 +62,16 @@ const App: React.FC = () => {
       ) {
         throw new Error('All fields are required.');
       }
-  
+
       // Calculate monthly passive income
       const result = calculateMonthlyPassiveIncome(clientData);
       setMonthlyPassiveIncome(result);
-  
+
       // Generate table data
       const table = createCapitalLifecycleTable(clientData);
       setTableData(table);
     } catch (error) {
       console.error('Calculation error:', error);
-      // Optionally, set an error state and display a message to the user
     }
   };
 

@@ -20,10 +20,17 @@ const AnnualGrowthRateOfSavingsField: React.FC<AnnualGrowthRateOfSavingsFieldPro
         type="number"
         name="g"
         value={clientData.g === null ? '' : Math.round(clientData.g * 100)}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const inputValue = e.target.value;
           const numericValue = inputValue === '' ? null : parseFloat(inputValue) / 100;
-          onInputChange('g')({ ...e, target: { ...e.target, value: numericValue } });
+          const newEvent = {
+            ...e,
+            target: {
+              ...e.target,
+              value: numericValue === null ? '' : numericValue.toString(),
+            } as HTMLInputElement,
+          };
+          onInputChange('g')(newEvent);
         }}
       />
     </Grid>
