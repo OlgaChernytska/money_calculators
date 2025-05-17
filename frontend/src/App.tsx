@@ -7,6 +7,8 @@ import CapitalLifecycleTable from './components/CapitalLifecycleTable/index';
 import { ClientData, TableRowData } from './types';
 import { calculateMonthlyPassiveIncome } from './components/CalculationForm/calculateMonthlyPassiveIncome';
 import { createCapitalLifecycleTable } from './components/CapitalLifecycleTable/createCapitalLifecycleTable';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './components/i118/switcher';
 
 const theme = createTheme({
   palette: {
@@ -21,6 +23,7 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
   const [clientData, setClientData] = useState<ClientData>({
     ageNow: 32,
     ageRetirement: 40,
@@ -39,17 +42,14 @@ const App: React.FC = () => {
     ageDeath: { isValid: true, reason: '' },
   });
 
-  // Handle input changes
   const handleInputChange = (field: keyof ClientData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const numericValue = inputValue === '' ? null : parseFloat(inputValue);
     setClientData((prev) => ({ ...prev, [field]: numericValue }));
   };
 
-  // Handle calculation
   const handleCalculate = () => {
     try {
-      // Validate inputs
       if (
         clientData.ageNow === null ||
         clientData.ageRetirement === null ||
@@ -63,11 +63,9 @@ const App: React.FC = () => {
         throw new Error('All fields are required.');
       }
 
-      // Calculate monthly passive income
       const result = calculateMonthlyPassiveIncome(clientData);
       setMonthlyPassiveIncome(result);
 
-      // Generate table data
       const table = createCapitalLifecycleTable(clientData);
       setTableData(table);
     } catch (error) {
@@ -79,10 +77,11 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <Box mt={4} mb={4}>
+        <Box mt={4} mb={4} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h4" gutterBottom align="center" color="primary">
-            Financial Calculator
+            {t('financial_calculator')}
           </Typography>
+          <LanguageSwitcher />
         </Box>
         <Card id="calculator">
           <CardContent>
@@ -95,7 +94,7 @@ const App: React.FC = () => {
             {monthlyPassiveIncome !== null && (
               <Box mt={3} textAlign="center">
                 <Typography variant="h6" id="income">
-                  Estimated Monthly Passive Income: <strong>${monthlyPassiveIncome.toFixed(2)}</strong>
+                  {t('estimated_monthly_passive_income')}: <strong>${monthlyPassiveIncome.toFixed(2)}</strong>
                 </Typography>
               </Box>
             )}
@@ -105,7 +104,7 @@ const App: React.FC = () => {
           <>
             <Box mt={3}>
               <Typography variant="h4" gutterBottom align="center">
-                Capital Growth Over Time
+                {t('capital_growth_over_time')}
               </Typography>
               <Chart tableData={tableData} />
             </Box>
