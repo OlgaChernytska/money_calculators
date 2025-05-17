@@ -5,7 +5,8 @@ import CalculationForm from './components/CalculationForm/index';
 import Chart from './components/Chart/index';
 import CapitalLifecycleTable from './components/CapitalLifecycleTable/index';
 import { ClientData, TableRowData } from './types';
-import { calculateMonthlyPassiveIncome, createCapitalLifecycleTable } from './components/CalculationForm/calculateMonthlyPassiveIncome';
+import { calculateMonthlyPassiveIncome } from './components/CalculationForm/calculateMonthlyPassiveIncome';
+import { createCapitalLifecycleTable } from './components/CapitalLifecycleTable/createCapitalLifecycleTable';
 
 const theme = createTheme({
   palette: {
@@ -32,7 +33,7 @@ const App: React.FC = () => {
   });
   const [monthlyPassiveIncome, setMonthlyPassiveIncome] = useState<number | null>(null);
   const [tableData, setTableData] = useState<TableRowData[]>([]);
-  const [validationErrors, setValidationErrors] = useState({
+  const [validationErrors] = useState({
     ageNow: { isValid: true, reason: '' },
     ageRetirement: { isValid: true, reason: '' },
     ageDeath: { isValid: true, reason: '' },
