@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Box, Typography, CssBaseline, Card, CardContent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CalculationForm from './components/CalculationForm/index';
+import CalculationForm from './components/CalculationForm/CalculationForm';
 import Chart from './components/Chart/index';
 import CapitalLifecycleTable from './components/CapitalLifecycleTable/index';
 import { ClientData, TableRowData } from './types';
