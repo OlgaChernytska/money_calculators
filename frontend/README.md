@@ -65,6 +65,12 @@ Runs unit tests with Vitest.
 
 
 ## Checking Dependency Health
+
+```bash
+npm update
+```
+Updates all dependencies
+
 ```bash
 npm outdated
 ```
