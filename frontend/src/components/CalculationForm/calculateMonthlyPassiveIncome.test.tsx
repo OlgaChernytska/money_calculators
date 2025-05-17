@@ -3,7 +3,7 @@ import { ClientData } from '../../types';
 
 describe('calculateMonthlyPassiveIncome', () => {
   it('should calculate the monthly passive income correctly', () => {
-    var client: ClientData = {
+    const client: ClientData = {
       ageNow: 32,
       ageRetirement: 40,
       ageDeath: 80,

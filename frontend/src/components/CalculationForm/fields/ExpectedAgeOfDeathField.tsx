@@ -21,7 +21,7 @@ const ExpectedAgeOfDeathField: React.FC<ExpectedAgeOfDeathFieldProps> = ({
         label="Expected Age of Death"
         type="number"
         name="ageDeath"
-        value={clientData.ageDeath === null ? '' : clientData.ageDeath}
+        value={clientData.ageDeath ?? ''}
         onChange={onInputChange('ageDeath')}
       />
       {!validationErrors.ageDeath.isValid && (

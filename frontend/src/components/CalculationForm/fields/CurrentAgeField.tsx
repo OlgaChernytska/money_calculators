@@ -21,7 +21,7 @@ const CurrentAgeField: React.FC<CurrentAgeFieldProps> = ({
         label="Current Age"
         type="number"
         name="ageNow"
-        value={clientData.ageNow === null ? '' : clientData.ageNow}
+        value={clientData.ageNow ?? ''}
         onChange={onInputChange('ageNow')}
       />
       {!validationErrors.ageNow.isValid && (

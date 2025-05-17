@@ -21,7 +21,7 @@ const RetirementAgeField: React.FC<RetirementAgeFieldProps> = ({
         label="Retirement Age"
         type="number"
         name="ageRetirement"
-        value={clientData.ageRetirement === null ? '' : clientData.ageRetirement}
+        value={clientData.ageRetirement ?? ''}
         onChange={onInputChange('ageRetirement')}
       />
       {!validationErrors.ageRetirement.isValid && (

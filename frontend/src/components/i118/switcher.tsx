@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    const selectedLanguage = event.target.value as string;
-    i18n.changeLanguage(selectedLanguage);
-  };
+const handleChange = (event: SelectChangeEvent<string>) => {
+  const selectedLanguage = event.target.value;
+  void i18n.changeLanguage(selectedLanguage);
+};
 
   return (
     <FormControl variant="outlined" size="small">
