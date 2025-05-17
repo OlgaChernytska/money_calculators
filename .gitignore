@@ -4,4 +4,6 @@ __pycache__
 
 node_modules
 
+# built related files
 dist
+tsconfig.tsbuildinfo
