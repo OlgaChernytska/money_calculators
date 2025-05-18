@@ -3,8 +3,8 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 // Import translation files
-import enTranslation from '../../locales/en/translation.json';
-import uaTranslation from '../../locales/ua/translation.json';
+import enTranslation from './locales/en/translation.json';
+import uaTranslation from './locales/ua/translation.json';
 
 void i18n
   .use(LanguageDetector)
@@ -18,6 +18,7 @@ void i18n
         translation: uaTranslation,
       },
     },
+    lng: 'ua',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

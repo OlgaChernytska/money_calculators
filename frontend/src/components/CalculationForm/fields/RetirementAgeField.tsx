@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import CustomTextField from './TextFieldBase/TextFieldBase';
 import { ClientData } from '../../../types';
+import { useTranslation } from 'react-i18next';
 
 interface RetirementAgeFieldProps {
   clientData: ClientData;
@@ -14,11 +15,13 @@ const RetirementAgeField: React.FC<RetirementAgeFieldProps> = ({
   onInputChange,
   validationErrors,
 }) => {
-  return (
+  const { t } = useTranslation();
+
+  return (    
     <Grid item xs={12} sm={6}>
       <CustomTextField
         fullWidth
-        label="Retirement Age"
+        label={t('retirement_age')}
         type="number"
         name="ageRetirement"
         value={clientData.ageRetirement ?? ''}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import TextFieldBase from './TextFieldBase/TextFieldBase';
 import { ClientData } from '../../../types';
+import { useTranslation } from 'react-i18next';
 
 interface CurrentAgeFieldProps {
   clientData: ClientData;
@@ -14,11 +15,12 @@ const CurrentAgeField: React.FC<CurrentAgeFieldProps> = ({
   onInputChange,
   validationErrors,
 }) => {
+  const { t } = useTranslation();
   return (
     <Grid item xs={12} sm={6}>
       <TextFieldBase
         fullWidth
-        label="Current Age"
+        label={t('current_age')}
         type="number"
         name="ageNow"
         value={clientData.ageNow ?? ''}
