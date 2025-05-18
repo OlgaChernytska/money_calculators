@@ -14,5 +14,8 @@
     "error_retirement_age_greater_than_current": "Вік виходу на пенсію має бути більшим за поточний вік",
     "error_retirement_age_less_than_death": "Вік виходу на пенсію має бути меншим за очікуваний вік смерті",
     "error_death_age_greater_than_retirement": "Очікуваний вік смерті має бути більшим за вік виходу на пенсію",
-    "calculate": "Розрахувати"
+    "calculate": "Розрахувати",
+    "capital_at_end_of_year": "Капітал на кінець року ($)",
+    "age": "Вік",
+    "chart_render_error": "Не вдалося відобразити графік."
 }

@@ -14,5 +14,8 @@
        "error_retirement_age_greater_than_current": "Retirement age must be greater than current age",
        "error_retirement_age_less_than_death": "Retirement age must be less than expected age of death",
        "error_death_age_greater_than_retirement": "Expected age of death must be greater than retirement age",
-       "calculate": "Calculate"
+       "calculate": "Calculate",
+       "capital_at_end_of_year": "Capital at End of Year ($)",
+       "age": "Age",
+       "chart_render_error": "Failed to render chart."
 }

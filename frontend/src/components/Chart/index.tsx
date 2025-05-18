@@ -12,6 +12,7 @@ import {
 import { TableRowData } from '../../types';
 import {  Typography } from '@mui/material';
 import './style.css';
+import { useTranslation } from 'react-i18next';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -21,12 +22,13 @@ interface ChartProps {
 }
 
 const Chart: React.FC<ChartProps> = ({ tableData }) => {
+  const { t } = useTranslation();
   try {
     const chartData = {
       labels: tableData.map((row) => row.age),
       datasets: [
         {
-          label: 'Capital at End of Year ($)',
+          label: t('capital_at_end_of_year'),
           data: tableData.map((row) => row.capitalYearEnd),
           backgroundColor: 'rgba(75, 192, 192, 0.6)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -43,20 +45,20 @@ const Chart: React.FC<ChartProps> = ({ tableData }) => {
         },
         title: {
           display: true,
-          text: 'Capital Growth Over Time',
+          text: t('capital_growth_over_time'),
         },
       },
       scales: {
         x: {
           title: {
             display: true,
-            text: 'Age',
+            text: t('age'),
           },
         },
         y: {
           title: {
             display: true,
-            text: 'Capital at End of Year ($)',
+            text: t('capital_at_end_of_year'),
           },
         },
       },
@@ -65,7 +67,7 @@ const Chart: React.FC<ChartProps> = ({ tableData }) => {
     return <Bar data={chartData} options={chartOptions} />;
   } catch (error) {
     console.error('Chart rendering error:', error);
-    return <Typography color="error">Failed to render chart.</Typography>;
+    return <Typography color="error">{t('chart_render_error')}</Typography>;
   }
 };
 
