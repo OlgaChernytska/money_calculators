@@ -16,6 +16,7 @@ const CurrentAgeField: React.FC<CurrentAgeFieldProps> = ({
   validationErrors,
 }) => {
   const { t } = useTranslation();
+  
   return (
     <Grid item xs={12} sm={6}>
       <TextFieldBase

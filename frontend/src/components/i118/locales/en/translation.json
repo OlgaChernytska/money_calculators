@@ -3,5 +3,11 @@
        "current_age": "Current Age",
        "financial_calculator": "Financial Calculator",
        "estimated_monthly_passive_income": "Estimated Monthly Passive Income",
-       "retirement_age": "Retirement Age"
+       "retirement_age": "Retirement Age",
+       "expected_age_of_death": "Expected Age of Death",
+       "annual_inflation_rate": "Annual Inflation Rate (%)",
+       "initial_capital": "Initial Capital ($)",
+       "annual_return_rate": "Annual Return Rate (%)",
+       "monthly_savings": "Monthly Savings ($)",
+       "annual_growth_rate_of_savings": "Annual Growth Rate of Savings (%)"
 }

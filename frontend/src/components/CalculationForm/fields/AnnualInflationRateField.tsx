@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import TextFieldBase from './TextFieldBase/TextFieldBase';
 import { ClientData } from '../../../types';
+import { useTranslation } from 'react-i18next';
 
 interface AnnualInflationRateFieldProps {
   clientData: ClientData;
@@ -9,11 +10,12 @@ interface AnnualInflationRateFieldProps {
 }
 
 const AnnualInflationRateField: React.FC<AnnualInflationRateFieldProps> = ({ clientData, onInputChange }) => {
+  const { t } = useTranslation();
   return (
     <Grid item xs={12} sm={6}>
       <TextFieldBase
         fullWidth
-        label="Annual Inflation Rate (%)"
+        label={t('annual_inflation_rate')}
         type="number"
         name="i"
         value={clientData.i === null ? '' : Math.round(clientData.i * 100)}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import TextFieldBase from './TextFieldBase/TextFieldBase';
 import { ClientData } from '../../../types';
+import { useTranslation } from 'react-i18next';
 
 interface InitialCapitalFieldProps {
   clientData: ClientData;
@@ -9,11 +10,12 @@ interface InitialCapitalFieldProps {
 }
 
 const InitialCapitalField: React.FC<InitialCapitalFieldProps> = ({ clientData, onInputChange }) => {
+  const { t } = useTranslation();
   return (
     <Grid item xs={12} sm={6}>
       <TextFieldBase
         fullWidth
-        label="Initial Capital ($)"
+        label={t('initial_capital')}
         type="number"
         name="c0"
         value={clientData.c0}

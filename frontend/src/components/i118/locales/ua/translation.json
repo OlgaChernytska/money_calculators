@@ -1,5 +1,14 @@
 {
     "financial_calculator": "Фінансовий калькулятор",
     "estimated_monthly_passive_income": "Очікуваний щомісячний пасивний дохід",
-    "capital_growth_over_time": "Зростання капіталу з часом"
+    "capital_growth_over_time": "Зростання капіталу з часом",
+    "expected_age_of_death": "Очікуваний вік смерті",
+    "annual_inflation_rate": "Річний рівень інфляції (%)",
+    "initial_capital": "Початковий капітал ($)",
+    "annual_return_rate": "Річна ставка доходу (%)",
+    "monthly_savings": "Щомісячні заощадження ($)",
+    "current_age": "Поточний вік",
+    "retirement_age": "Вік виходу на пенсію",
+    "annual_growth_rate_of_savings": "Річний приріст заощаджень (%)"
+    
   }

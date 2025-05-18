@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@mui/material';
 import TextFieldBase from './TextFieldBase/TextFieldBase';
 import { ClientData } from '../../../types';
+import { useTranslation } from 'react-i18next';
 
 interface ExpectedAgeOfDeathFieldProps {
   clientData: ClientData;
@@ -14,11 +15,12 @@ const ExpectedAgeOfDeathField: React.FC<ExpectedAgeOfDeathFieldProps> = ({
   onInputChange,
   validationErrors,
 }) => {
+  const { t } = useTranslation();
   return (
     <Grid item xs={12} sm={6}>
       <TextFieldBase
         fullWidth
-        label="Expected Age of Death"
+        label={t('expected_age_of_death')}
         type="number"
         name="ageDeath"
         value={clientData.ageDeath ?? ''}
