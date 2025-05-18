@@ -17,5 +17,11 @@
     "calculate": "Розрахувати",
     "capital_at_end_of_year": "Капітал на кінець року ($)",
     "age": "Вік",
-    "chart_render_error": "Не вдалося відобразити графік."
+    "chart_render_error": "Не вдалося відобразити графік.",
+    "detailed_info": "Детальна інформація",
+    "capital_start": "Капітал на початок року ($)",
+    "interest": "Відсотки ($)",
+    "saved_withdrawn": "Заощаджено/Знято ($)",
+    "capital_end": "Капітал на кінець року ($)",
+    "monthly_saved_withdrawn": "Щомісячно заощаджено/знято ($)"
 }
