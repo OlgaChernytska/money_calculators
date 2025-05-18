@@ -9,6 +9,10 @@
     "monthly_savings": "Щомісячні заощадження ($)",
     "current_age": "Поточний вік",
     "retirement_age": "Вік виходу на пенсію",
-    "annual_growth_rate_of_savings": "Річний приріст заощаджень (%)"
-    
-  }
+    "annual_growth_rate_of_savings": "Річний приріст заощаджень (%)",
+    "error_current_age_less_than_retirement": "Поточний вік має бути меншим за вік виходу на пенсію",
+    "error_retirement_age_greater_than_current": "Вік виходу на пенсію має бути більшим за поточний вік",
+    "error_retirement_age_less_than_death": "Вік виходу на пенсію має бути меншим за очікуваний вік смерті",
+    "error_death_age_greater_than_retirement": "Очікуваний вік смерті має бути більшим за вік виходу на пенсію",
+    "calculate": "Розрахувати"
+}

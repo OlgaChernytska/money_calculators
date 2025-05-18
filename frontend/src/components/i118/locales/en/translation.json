@@ -9,5 +9,10 @@
        "initial_capital": "Initial Capital ($)",
        "annual_return_rate": "Annual Return Rate (%)",
        "monthly_savings": "Monthly Savings ($)",
-       "annual_growth_rate_of_savings": "Annual Growth Rate of Savings (%)"
+       "annual_growth_rate_of_savings": "Annual Growth Rate of Savings (%)",
+       "error_current_age_less_than_retirement": "Current age must be less than retirement age",
+       "error_retirement_age_greater_than_current": "Retirement age must be greater than current age",
+       "error_retirement_age_less_than_death": "Retirement age must be less than expected age of death",
+       "error_death_age_greater_than_retirement": "Expected age of death must be greater than retirement age",
+       "calculate": "Calculate"
 }

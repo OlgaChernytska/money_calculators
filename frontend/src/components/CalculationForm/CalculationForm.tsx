@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import './style.css';
+import { useTranslation } from 'react-i18next';
 
 import { ClientData } from '../../types';
 
@@ -46,6 +47,7 @@ const CalculationForm: React.FC<CalculationFormProps> = ({
   onCalculate,
   validationErrors: initialValidationErrors,
 }) => {
+  const { t } = useTranslation();
   const [validationErrors, setValidationErrors] = useState(initialValidationErrors);
 
   useEffect(() => {
@@ -76,25 +78,43 @@ const CalculationForm: React.FC<CalculationFormProps> = ({
 
   const hasValidationErrors = Object.values(validationErrors).some((error) => !error.isValid);
 
+  // Map error reasons to translation keys
+  const errorTranslations: Record<string, string> = {
+    'Current age must be less than retirement age': t('error_current_age_less_than_retirement'),
+    'Retirement age must be greater than current age': t('error_retirement_age_greater_than_current'),
+    'Retirement age must be less than expected age of death': t('error_retirement_age_less_than_death'),
+    'Expected age of death must be greater than retirement age': t('error_death_age_greater_than_retirement'),
+  };
+
+  // Patch validationErrors to use translated reasons
+  const translatedValidationErrors = Object.fromEntries(
+    Object.entries(validationErrors).map(([key, val]) => [
+      key,
+      val.isValid
+        ? val
+        : { ...val, reason: errorTranslations[val.reason] || val.reason },
+    ])
+  );
+
   return (
     <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={3}>
         <CurrentAgeField
           clientData={clientData}
           onInputChange={onInputChange}
-          validationErrors={validationErrors}
+          validationErrors={translatedValidationErrors}
         />
 
         <RetirementAgeField
           clientData={clientData}
           onInputChange={onInputChange}
-          validationErrors={validationErrors}
+          validationErrors={translatedValidationErrors}
         />
 
         <ExpectedAgeOfDeathField
           clientData={clientData}
           onInputChange={onInputChange}
-          validationErrors={validationErrors}
+          validationErrors={translatedValidationErrors}
         />
 
         <InitialCapitalField clientData={clientData} onInputChange={onInputChange} />
@@ -117,7 +137,7 @@ const CalculationForm: React.FC<CalculationFormProps> = ({
           onClick={handleCalculate}
           disabled={hasValidationErrors}
         >
-          Calculate
+          {t('calculate')}
         </Button>
       </Box>
     </Box>
