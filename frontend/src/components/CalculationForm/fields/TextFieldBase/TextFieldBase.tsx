@@ -17,8 +17,44 @@ interface TextFieldBaseProps {
   };
 }
 
+const TextFieldBase: React.FC<TextFieldBaseProps> = (props) => {
+  const { type, onChange, ...rest } = props;
+
+  // Custom onChange to prevent negative values for number fields
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === 'number') {
+      const value = event.target.value;
+      // Allow empty string for controlled input
+      if (value === '' || Number(value) >= 0) {
+        onChange(event);
+      } else {
+        // If negative, set to zero
+        const newEvent = {
+          ...event,
+          target: {
+            ...event.target,
+            value: '0',
+          } as HTMLInputElement,
+        };
+        onChange(newEvent);
+      }
+    } else {
+      onChange(event);
+    }
+  };
+
+  return (
+    <StyledTextFieldBase
+      {...rest}
+      type={type}
+      onChange={handleChange}
+      inputProps={{ min: 0, ...(rest.inputProps || {}) }}
+    />
+  );
+};
+
 // Create the styled component
-const TextFieldBase = styled(TextField)<TextFieldBaseProps>({
+const StyledTextFieldBase = styled(TextField)<TextFieldBaseProps>({
   backgroundColor: 'white', // Set background color
   '& .MuiOutlinedInput-root': {
     '&.Mui-focused fieldset': {
