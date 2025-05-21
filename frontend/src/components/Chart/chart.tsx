@@ -28,7 +28,6 @@ const Chart: React.FC<ChartProps> = ({ tableData }) => {
       labels: tableData.map((row) => row.age),
       datasets: [
         {
-          label: t('capital_at_end_of_year'),
           data: tableData.map((row) => row.capitalYearEnd),
           backgroundColor: 'rgba(75, 192, 192, 0.6)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -42,11 +41,9 @@ const Chart: React.FC<ChartProps> = ({ tableData }) => {
       plugins: {
         legend: {
           position: 'top' as const,
+          display: false,
         },
-        title: {
-          display: true,
-          text: t('capital_growth_over_time'),
-        },
+
       },
       scales: {
         x: {
@@ -64,7 +61,9 @@ const Chart: React.FC<ChartProps> = ({ tableData }) => {
       },
     };
 
-    return <Bar data={chartData} options={chartOptions} />;
+    return (
+        <Bar data={chartData} options={chartOptions} />
+    );
   } catch (error) {
     console.error('Chart rendering error:', error);
     return <Typography color="error">{t('chart_render_error')}</Typography>;
