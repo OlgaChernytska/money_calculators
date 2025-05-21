@@ -15,13 +15,13 @@
   "error_death_age_greater_than_retirement": "Expected age of death must be greater than retirement age",
   "error_retirement_age_greater_than_current": "Retirement age must be greater than current age",
   "error_retirement_age_less_than_death": "Retirement age must be less than expected age of death",
-  "estimated_monthly_passive_income": "Estimated Monthly Passive Income",
+  "estimated_monthly_passive_income": "Monthly Passive Income (inflation-adjusted)",
   "expected_age_of_death": "Expected Age of Death",
-  "financial_calculator": "Financial Calculator",
+  "financial_calculator": "Passive Income Calculator",
   "interest": "Interest ($)",
   "initial_capital": "Initial Capital ($)",
   "monthly_savings": "Monthly Savings ($)",
-  "monthly_saved_withdrawn": "Monthly Saved/Withdrawn ($)",
+  "monthly_saved_withdrawn": "Saved/Withdrawn Monthly, Inflation-adjusted ($)",
   "retirement_age": "Retirement Age",
-  "saved_withdrawn": "Saved/Withdrawn ($)"
+  "saved_withdrawn": "Saved/Withdrawn Yearly ($)"
 }

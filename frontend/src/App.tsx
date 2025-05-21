@@ -81,15 +81,17 @@ const App: React.FC = () => {
           <Typography variant="h4" gutterBottom align="center" color="primary">
             {t('financial_calculator')}
             <span style={{ color: "#99d9d9", fontStyle: 'italic', marginLeft: 12, fontFamily: "'Better Grade', cursive", fontSize: '3rem' }}>
-              <a
-                href="https://www.instagram.com/eat.love.write/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Made by Olha Chernytska"
-                style={{ color: 'inherit' }}
-              >
-                Made by Olha Chernytska
-              </a>
+              <span className="author-signature">
+                <a
+                  href="https://www.instagram.com/eat.love.write/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Made by Olha Chernytska"
+                  style={{ color: 'inherit' }}
+                >
+                  Made by Olha Chernytska
+                </a>
+              </span>
             </span>
           </Typography>
           <LanguageSwitcher />

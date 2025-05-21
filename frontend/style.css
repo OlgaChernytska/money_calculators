@@ -31,3 +31,16 @@ canvas {
 a {
   text-decoration: none !important;
 }
+
+.author-signature {
+  color: #99d9d9;
+  font-style: italic;
+  margin-left: 12px;
+  font-family: 'Better Grade', cursive;
+  font-size: 3rem;
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+.author-signature:hover {
+  transform: scale(1.06);
+}
