@@ -32,11 +32,11 @@ const CapitalLifecycleTable: React.FC<TableProps> = ({ tableData }) => {
               {tableData.map((row) => (
                 <TableRow key={row.age}>
                   <TableCell>{row.age}</TableCell>
-                  <TableCell align="right">{row.capitalYearStart.toFixed(2)}</TableCell>
-                  <TableCell align="right">{row.interest.toFixed(2)}</TableCell>
-                  <TableCell align="right">{row.saved.toFixed(2)}</TableCell>
-                  <TableCell align="right">{row.capitalYearEnd.toFixed(2)}</TableCell>
-                  <TableCell align="right">{row.savedPpMonthly.toFixed(2)}</TableCell>
+                  <TableCell align="right">{Math.round(row.capitalYearStart)}</TableCell>
+                  <TableCell align="right">{Math.round(row.interest)}</TableCell>
+                  <TableCell align="right">{Math.round(row.saved)}</TableCell>
+                  <TableCell align="right">{Math.round(row.capitalYearEnd)}</TableCell>
+                  <TableCell align="right">{Math.round(row.savedPpMonthly)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

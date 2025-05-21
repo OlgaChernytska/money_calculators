@@ -107,7 +107,7 @@ const App: React.FC = () => {
             {monthlyPassiveIncome !== null && (
               <Box mt={3} textAlign="center">
                 <Typography variant="h6" id="income">
-                  {t('estimated_monthly_passive_income')}: <strong>${monthlyPassiveIncome.toFixed(2)}</strong>
+                  {t('estimated_monthly_passive_income')}: <strong>${Math.round(monthlyPassiveIncome)}</strong>
                 </Typography>
               </Box>
             )}
