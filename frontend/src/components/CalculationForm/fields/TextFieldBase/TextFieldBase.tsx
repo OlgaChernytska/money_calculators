@@ -18,16 +18,18 @@ interface TextFieldBaseProps {
 }
 
 const TextFieldBase: React.FC<TextFieldBaseProps> = (props) => {
-  const { type, onChange, ...rest } = props;
+  const { type, onChange, inputProps, ...rest } = props;
 
-  // Custom onChange to prevent negative values for number fields
+  // Custom onChange to prevent negative values and values above max for number fields
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (type === 'number') {
       const value = event.target.value;
+      const min = 0;
+      const max = inputProps?.max;
       // Allow empty string for controlled input
-      if (value === '' || Number(value) >= 0) {
+      if (value === '') {
         onChange(event);
-      } else {
+      } else if (Number(value) < min) {
         // If negative, set to zero
         const newEvent = {
           ...event,
@@ -37,6 +39,18 @@ const TextFieldBase: React.FC<TextFieldBaseProps> = (props) => {
           } as HTMLInputElement,
         };
         onChange(newEvent);
+      } else if (max !== undefined && Number(value) > max) {
+        // If above max, set to max
+        const newEvent = {
+          ...event,
+          target: {
+            ...event.target,
+            value: String(max),
+          } as HTMLInputElement,
+        };
+        onChange(newEvent);
+      } else {
+        onChange(event);
       }
     } else {
       onChange(event);
@@ -48,7 +62,7 @@ const TextFieldBase: React.FC<TextFieldBaseProps> = (props) => {
       {...rest}
       type={type}
       onChange={handleChange}
-      inputProps={{ min: 0, ...(rest.inputProps || {}) }}
+      inputProps={{ min: 0, ...(inputProps || {}) }}
     />
   );
 };

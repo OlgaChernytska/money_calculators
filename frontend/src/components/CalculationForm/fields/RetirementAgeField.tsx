@@ -26,6 +26,7 @@ const RetirementAgeField: React.FC<RetirementAgeFieldProps> = ({
         name="ageRetirement"
         value={clientData.ageRetirement ?? ''}
         onChange={onInputChange('ageRetirement')}
+        inputProps={{ max: 99 }}
       />
       {!validationErrors.ageRetirement.isValid && (
         <Typography color="error" variant="body2">

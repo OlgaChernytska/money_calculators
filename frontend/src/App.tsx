@@ -25,11 +25,11 @@ const theme = createTheme({
 const App: React.FC = () => {
   const { t } = useTranslation();
   const [clientData, setClientData] = useState<ClientData>({
-    ageNow: 32,
-    ageRetirement: 40,
-    ageDeath: 80,
-    c0: 5000,
-    p: 2000,
+    ageNow: 30,
+    ageRetirement: 60,
+    ageDeath: 85,
+    c0: 0,
+    p: 200,
     r: 0.07,
     g: 0.02,
     i: 0.02,
@@ -80,6 +80,17 @@ const App: React.FC = () => {
         <Box mt={4} mb={4} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h4" gutterBottom align="center" color="primary">
             {t('financial_calculator')}
+            <span style={{ color: "#99d9d9", fontStyle: 'italic', marginLeft: 12, fontFamily: "'Better Grade', cursive", fontSize: '3rem' }}>
+              <a
+                href="https://www.instagram.com/eat.love.write/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Made by Olha Chernytska"
+                style={{ color: 'inherit' }}
+              >
+                Made by Olha Chernytska
+              </a>
+            </span>
           </Typography>
           <LanguageSwitcher />
         </Box>

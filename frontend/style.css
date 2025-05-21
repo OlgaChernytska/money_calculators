@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Better Grade';
+    src: url('/fonts/BetterGrade.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 /* tags */
 canvas {
     background: white;
@@ -19,4 +26,8 @@ canvas {
 .css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input {
     outline:red !important;
     border-color: red;
+}
+
+a {
+  text-decoration: none !important;
 }
