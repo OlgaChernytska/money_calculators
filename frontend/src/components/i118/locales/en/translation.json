@@ -24,5 +24,6 @@
   "monthly_saved_withdrawn": "Saved/Withdrawn Monthly, Inflation-adjusted ($)",
   "retirement_age": "Retirement Age",
   "saved_withdrawn": "Saved/Withdrawn Yearly ($)",
-  "made_by_olha_chernytska": "made by Olha Chernytska"
+  "made_by_olha_chernytska": "made by Olha Chernytska",
+  "annual_rate_too_high_warning": "An instrument that provides such a yield may cause you to lose your money."
 }

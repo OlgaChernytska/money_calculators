@@ -104,6 +104,11 @@ const App: React.FC = () => {
                 <Typography variant="h6" id="income">
                   {t('estimated_monthly_passive_income')}: <strong>${Math.round(monthlyPassiveIncome)}</strong>
                 </Typography>
+                {clientData.r !== null && clientData.r > 0.10 && (
+                  <Typography color="warning.main" variant="body2" sx={{ mt: 1 }}>
+                    {t('annual_rate_too_high_warning')}
+                  </Typography>
+                )}
               </Box>
             )}
           </CardContent>
