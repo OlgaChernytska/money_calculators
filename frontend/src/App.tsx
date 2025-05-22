@@ -80,19 +80,14 @@ const App: React.FC = () => {
         <Box mt={4} mb={4} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h4" gutterBottom align="center" color="primary">
             {t('financial_calculator')}
-            <span style={{ color: "#99d9d9", fontStyle: 'italic', marginLeft: 12, fontFamily: "'Better Grade', cursive", fontSize: '3rem' }}>
-              <span className="author-signature">
-                <a
+                <a className="author-signature"
                   href="https://www.instagram.com/eat.love.write/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="Made by Olha Chernytska"
-                  style={{ color: 'inherit' }}
+                  title="{t('made_by_olha_chernytska')}"
                 >
-                  Made by Olha Chernytska
+                  {t('made_by_olha_chernytska')}
                 </a>
-              </span>
-            </span>
           </Typography>
           <LanguageSwitcher />
         </Box>

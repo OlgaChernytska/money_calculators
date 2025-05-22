@@ -28,7 +28,7 @@ const validateAges = (clientData: ClientData) => {
     ageDeath: { isValid: true, reason: '' },
   };
 
-  if (clientData.ageNow >= clientData.ageRetirement) {
+  if (clientData.ageNow > clientData.ageRetirement) {
     errors.ageNow = { isValid: false, reason: 'Current age must be less than retirement age' };
     errors.ageRetirement = { isValid: false, reason: 'Retirement age must be greater than current age' };
   }

@@ -18,6 +18,7 @@ const InitialCapitalField: React.FC<InitialCapitalFieldProps> = ({ clientData, o
         label={t('initial_capital')}
         type="number"
         name="c0"
+        inputProps={{ max: 1000000 }}
         value={clientData.c0}
         onChange={onInputChange('c0')}
       />

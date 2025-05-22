@@ -21,6 +21,7 @@ const AnnualGrowthRateOfSavingsField: React.FC<AnnualGrowthRateOfSavingsFieldPro
         label={t('annual_growth_rate_of_savings')}
         type="number"
         name="g"
+        inputProps={{ max: 100 }}
         value={clientData.g === null ? '' : Math.round(clientData.g * 100)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const inputValue = e.target.value;

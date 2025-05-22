@@ -26,7 +26,7 @@ const CurrentAgeField: React.FC<CurrentAgeFieldProps> = ({
         name="ageNow"
         value={clientData.ageNow ?? ''}
         onChange={onInputChange('ageNow')}
-        inputProps={{ max: 98 }}
+        inputProps={{ max: 99 }}
       />
       {!validationErrors.ageNow.isValid && (
         <Typography color="error" variant="body2">

@@ -18,6 +18,7 @@ const AnnualReturnRateField: React.FC<AnnualReturnRateFieldProps> = ({ clientDat
         label={t('annual_return_rate')}
         type="number"
         name="r"
+        inputProps={{ max: 100 }}
         value={clientData.r === null ? '' : Math.round(clientData.r * 100)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const inputValue = e.target.value;

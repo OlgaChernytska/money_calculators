@@ -18,6 +18,7 @@ const MonthlySavingsField: React.FC<MonthlySavingsFieldProps> = ({ clientData, o
         label={t('monthly_savings')}
         type="number"
         name="p"
+        inputProps={{ max: 10000 }}
         value={clientData.p}
         onChange={onInputChange('p')}
       />
