@@ -18,7 +18,7 @@ const AnnualInflationRateField: React.FC<AnnualInflationRateFieldProps> = ({ cli
         label={t('annual_inflation_rate')}
         type="number"
         name="i"
-        inputProps={{ max: 100 }}
+        inputProps={{ max: 50 }}
         value={clientData.i === null ? '' : Math.round(clientData.i * 100)}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const inputValue = e.target.value;

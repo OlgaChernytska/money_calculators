@@ -77,7 +77,10 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <Box mt={4} mb={4} display="flex" justifyContent="space-between" alignItems="center">
+        <Box mt={4} mb={4} position="relative">
+          <Box position="absolute" top={0} right={0} zIndex={1}>
+            <LanguageSwitcher />
+          </Box>
           <Typography variant="h4" gutterBottom align="center" color="primary">
             {t('financial_calculator')}
                 <a className="author-signature"
@@ -89,7 +92,6 @@ const App: React.FC = () => {
                   {t('made_by_olha_chernytska')}
                 </a>
           </Typography>
-          <LanguageSwitcher />
         </Box>
         <Card id="calculator">
           <CardContent>
@@ -104,11 +106,6 @@ const App: React.FC = () => {
                 <Typography variant="h6" id="income">
                   {t('estimated_monthly_passive_income')}: <strong>${Math.round(monthlyPassiveIncome)}</strong>
                 </Typography>
-                {clientData.r !== null && clientData.r > 0.10 && (
-                  <Typography color="warning.main" variant="body2" sx={{ mt: 1 }}>
-                    {t('annual_rate_too_high_warning')}
-                  </Typography>
-                )}
               </Box>
             )}
           </CardContent>
@@ -126,6 +123,19 @@ const App: React.FC = () => {
             </Box>
           </>
         )}
+        <Box mt={4} mb={2} textAlign="center">
+          <Typography variant="body2" color="primary">
+          <a className="author-signature"
+                  href="https://www.instagram.com/eat.love.write/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="{t('money_with_mind')}"
+                >
+                  {t('money_with_mind')}
+                </a>
+          <div>{new Date().getFullYear()}</div>
+          </Typography>
+        </Box>
       </Container>
     </ThemeProvider>
   );

@@ -24,6 +24,7 @@ const handleChange = (event: SelectChangeEvent<string>) => {
           '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#99d9d9' },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#99d9d9' },
           '.MuiSelect-icon': { color: '#99d9d9' },
+          minWidth: '60px',
         }}
       >
         <MenuItem value="en">EN</MenuItem>

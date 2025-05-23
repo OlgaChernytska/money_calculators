@@ -12,11 +12,11 @@
     "current_age": "Поточний вік",
     "detailed_info": "Детальна інформація",
     "error_current_age_less_than_retirement": "Поточний вік має бути меншим за вік виходу на фінансову незалежність",
-    "error_death_age_greater_than_retirement": "Очікуваний вік відходу має бути більшим за вік виходу на фінансову незалежність",
+    "error_death_age_greater_than_retirement": "Очікувана тривалість життя має бути більшою за вік виходу на фінансову незалежність",
     "error_retirement_age_greater_than_current": "Вік виходу на фінансову незалежність має бути більшим за поточний вік",
-    "error_retirement_age_less_than_death": "Вік виходу на фінансову незалежність має бути меншим за очікуваний вік відходу",
+    "error_retirement_age_less_than_death": "Вік виходу на фінансову незалежність має бути меншим за очікувану тривалість життя",
     "estimated_monthly_passive_income": "Щомісячний пасивний дохід (скорегований на інфляцію)",
-    "expected_age_of_death": "Очікуваний вік відходу",
+    "expected_age_of_death": "Очікувана тривалість життя",
     "financial_calculator": "Калькулятор Пасивного Доходу",
     "initial_capital": "Початковий капітал ($)",
     "interest": "Відсотки ($)",
@@ -25,5 +25,5 @@
     "retirement_age": "Вік виходу на фінансову незалежність",
     "saved_withdrawn": "Заощаджено/знято за рік ($)",
     "made_by_olha_chernytska": "від проекту \"гроші з розумом\"",
-    "annual_rate_too_high_warning": "Інструмент який дає таку дохідність може спричинити втрату ваших грошей"
+    "money_with_mind": "Гроші з розумом"
 }
