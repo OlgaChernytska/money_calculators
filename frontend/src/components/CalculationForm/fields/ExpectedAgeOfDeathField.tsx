@@ -27,7 +27,7 @@ const ExpectedAgeOfDeathField: React.FC<ExpectedAgeOfDeathFieldProps> = ({
         onChange={onInputChange('ageDeath')}
         inputProps={{ max: 100 }}
       />
-      {!validationErrors.ageDeath.isValid && (
+      {!validationErrors.ageDeath.isValid && clientData.ageDeath !== null && (
         <Typography color="error" variant="body2">
           {validationErrors.ageDeath.reason}
         </Typography>

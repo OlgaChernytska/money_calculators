@@ -28,14 +28,19 @@ const validateAges = (clientData: ClientData) => {
     ageDeath: { isValid: true, reason: '' },
   };
 
-  if (clientData.ageNow > clientData.ageRetirement) {
-    errors.ageNow = { isValid: false, reason: 'Current age must be less than retirement age' };
-    errors.ageRetirement = { isValid: false, reason: 'Retirement age must be greater than current age' };
+  // Only validate if both fields have values
+  if (clientData.ageNow !== null && clientData.ageRetirement !== null) {
+    if (clientData.ageNow > clientData.ageRetirement) {
+      errors.ageNow = { isValid: false, reason: 'Current age must be less than retirement age' };
+      errors.ageRetirement = { isValid: false, reason: 'Retirement age must be greater than current age' };
+    }
   }
 
-  if (clientData.ageRetirement >= clientData.ageDeath) {
-    errors.ageRetirement = { isValid: false, reason: 'Retirement age must be less than expected age of death' };
-    errors.ageDeath = { isValid: false, reason: 'Expected age of death must be greater than retirement age' };
+  if (clientData.ageRetirement !== null && clientData.ageDeath !== null) {
+    if (clientData.ageRetirement >= clientData.ageDeath) {
+      errors.ageRetirement = { isValid: false, reason: 'Retirement age must be less than expected age of death' };
+      errors.ageDeath = { isValid: false, reason: 'Expected age of death must be greater than retirement age' };
+    }
   }
 
   return errors;
